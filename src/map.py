@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import pygame,pytmx,pyscroll
+from pathlib import Path
 from player import NPC
 from sound import Sound
 from tkinter import *
@@ -36,6 +37,7 @@ class MapManager:
         self.pressed2=pressed2
         self.move_forward={"move":FALSE}
         self.current_map="world_1"
+        self.map_dir = Path(__file__).parent.parent / "map"
         self.register_map("world_1",portal=[
             Portal(from_world='world_1',origin_point='enter.level_1',target_world='level_1',teleport_point='spawn.enter.level_1'),
             Portal(from_world='world_1',origin_point='enter.world_2',target_world='world_2',teleport_point='spawn.enter.world_2')
@@ -95,7 +97,7 @@ class MapManager:
                 if sprite.feet.collidelist(self.get_level()) <= -1:
                     self.go_portal()
                 if sprite.feet.collidelist(self.get_level()) > -1 :
-                    for obj in pytmx.util_pygame.load_pygame(f"../map/{self.current_map}.tmx"):
+                    for obj in pytmx.util_pygame.load_pygame(str(self.map_dir / f"{self.current_map}.tmx")):
                         if obj.name=="enter.level_1":
                             self.text_level(1)
                         elif obj.name=="enter.level_2":
@@ -225,7 +227,7 @@ class MapManager:
 
     def register_map(self,name,portal=[],npc=[],geom=[]):
         #Chargement de la carte
-        tmx_data=pytmx.util_pygame.load_pygame(f"../map/{name}.tmx")
+        tmx_data=pytmx.util_pygame.load_pygame(str(self.map_dir / f"{name}.tmx"))
         map_data=pyscroll.data.TiledMapData(tmx_data)
         map_layer=pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
         map_layer.zoom=2
