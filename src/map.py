@@ -95,7 +95,7 @@ class MapManager:
                 if sprite.feet.collidelist(self.get_level()) <= -1:
                     self.go_portal()
                 if sprite.feet.collidelist(self.get_level()) > -1 :
-                    for obj in pytmx.util_pygame.load_pygame(f"map/{self.current_map}.tmx"):
+                    for obj in pytmx.util_pygame.load_pygame(f"../map/{self.current_map}.tmx"):
                         if obj.name=="enter.level_1":
                             self.text_level(1)
                         elif obj.name=="enter.level_2":
@@ -225,7 +225,7 @@ class MapManager:
 
     def register_map(self,name,portal=[],npc=[],geom=[]):
         #Chargement de la carte
-        tmx_data=pytmx.util_pygame.load_pygame(f"map/{name}.tmx")
+        tmx_data=pytmx.util_pygame.load_pygame(f"../map/{name}.tmx")
         map_data=pyscroll.data.TiledMapData(tmx_data)
         map_layer=pyscroll.orthographic.BufferedRenderer(map_data,self.screen.get_size())
         map_layer.zoom=2
