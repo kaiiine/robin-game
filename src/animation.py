@@ -1,10 +1,13 @@
 import pygame
+from pathlib import Path
+
+SPRITES = Path(__file__).parent.parent / 'sprites'
 
 class AnimateSprite(pygame.sprite.Sprite):
-    
+
     def __init__(self,name):
         super().__init__()
-        self.sprite_sheet=pygame.image.load(f'sprites\\{name}.png')
+        self.sprite_sheet=pygame.image.load(str(SPRITES / f'{name}.png'))
         self.animation_index=0
         self.images={'down':self.get_images(0),
                         'left':self.get_images(32),
